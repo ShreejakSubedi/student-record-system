@@ -1,0 +1,51 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Sign In - Student Record Management System{% endblock %}
+
+{% block content %}
+<div style="max-width: 420px; margin: 4rem auto; background: #fff; padding: 2rem; border-radius: 8px; box-shadow: 0 6px 18px rgba(0,0,0,0.08)">
+    <h2 style="text-align: center; margin-bottom: 1.5rem">Sign In</h2>
+    
+    {% if error %}
+        <div class="alert alert-danger">{{ error }}</div>
+    {% endif %}
+    
+    <form method="post" action="/fullstack2/student-record-system/public/login.php">
+        <div class="form-group">
+            <label for="username">Username</label>
+            <input 
+                id="username" 
+                name="username" 
+                class="form-control" 
+                value="{{ username | default('') }}"
+                required 
+                autofocus
+            />
+        </div>
+        
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input 
+                id="password" 
+                name="password" 
+                type="password" 
+                class="form-control" 
+                required
+            />
+        </div>
+        
+        <input type="hidden" name="{{ csrf_token_name }}" value="{{ csrf_token }}" />
+        
+        <div style="text-align: center; margin-top: 1.5rem">
+            <button class="btn" type="submit" style="background: #0066cc; color: white; padding: 0.6rem 1.5rem; border: 0; border-radius: 4px; cursor: pointer">
+                Sign In
+            </button>
+        </div>
+    </form>
+    
+    <p style="text-align: center; margin-top: 1.5rem">
+        Don't have an account? 
+        <a href="/fullstack2/student-record-system/public/signup.php">Sign up</a>
+    </p>
+</div>
+{% endblock %}

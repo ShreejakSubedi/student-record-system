@@ -1,0 +1,253 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Search - Student Record Management System{% endblock %}
+
+{% block content %}
+<div class="search-container">
+    <h2>Search Records</h2>
+
+    <!-- Search Form -->
+    <div class="search-section">
+        <div class="search-box">
+            <input type="text" id="searchInput" class="form-control search-input" 
+                   placeholder="Search by name, email, or roll number...">
+            <div id="searchResults" class="search-results"></div>
+        </div>
+
+        <div class="filters">
+            <label>Filter by Class:</label>
+            <select id="classFilter" class="form-control" onchange="filterByClass()">
+                <option value="">All Classes</option>
+                <option value="Class A">Class A</option>
+                <option value="Class B">Class B</option>
+                <option value="Class C">Class C</option>
+            </select>
+
+            <label>Filter by Status:</label>
+            <select id="statusFilter" class="form-control" onchange="filterByStatus()">
+                <option value="">All Status</option>
+                <option value="Active">Active</option>
+                <option value="Inactive">Inactive</option>
+                <option value="Graduated">Graduated</option>
+            </select>
+        </div>
+    </div>
+
+    <!-- Search Results -->
+    <div class="results-section" id="resultsSection" style="display: none;">
+        <h3>Results</h3>
+        <div id="resultsList" class="results-list"></div>
+    </div>
+
+    <!-- Detailed Search Results Table -->
+    <div class="section" id="detailedResults" style="display: none;">
+        <div class="table-responsive">
+            <table class="data-table" id="resultsTable">
+                <thead>
+                    <tr>
+                        <th>Roll Number</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Class</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="resultsTableBody">
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- No Results Message -->
+    <div id="noResults" class="alert alert-info" style="display: none;">
+        No students found matching your search criteria.
+    </div>
+</div>
+
+<script>
+let allStudents = [];
+
+// Load all students on page load
+document.addEventListener('DOMContentLoaded', function() {
+    loadAllStudents();
+    
+    // Add event listener for search input
+    document.getElementById('searchInput').addEventListener('input', function(e) {
+        const query = e.target.value;
+        if (query.length >= 2) {
+            searchStudents(query);
+        } else {
+            document.getElementById('searchResults').innerHTML = '';
+            document.getElementById('detailedResults').style.display = 'none';
+        }
+    });
+});
+
+async function loadAllStudents() {
+    try {
+        const response = await fetch('/fullstack2/student-record-system/public/search.php?action=get_all');
+        const data = await response.json();
+        if (data.success) {
+            allStudents = data.students;
+            displayAllStudents();
+        }
+    } catch (error) {
+        console.error('Error loading students:', error);
+    }
+}
+
+function displayAllStudents() {
+    const tbody = document.getElementById('resultsTableBody');
+    tbody.innerHTML = '';
+    
+    allStudents.forEach(student => {
+        const row = `
+            <tr>
+                <td>${student.roll_number}</td>
+                <td>${student.first_name} ${student.last_name}</td>
+                <td>${student.email}</td>
+                <td>${student.phone || 'N/A'}</td>
+                <td>${student.class}</td>
+                <td><span class="badge badge-${student.status.toLowerCase()}">${student.status}</span></td>
+                <td class="action-buttons">
+                    <a href="/fullstack2/student-record-system/public/edit.php?id=${student.id}" class="btn btn-sm btn-warning">Edit</a>
+                    <button class="btn btn-sm btn-info" onclick="viewStudentDetails(${student.id})">Details</button>
+                </td>
+            </tr>
+        `;
+        tbody.innerHTML += row;
+    });
+    
+    document.getElementById('detailedResults').style.display = 'block';
+    document.getElementById('noResults').style.display = 'none';
+}
+
+async function searchStudents(query) {
+    try {
+        const response = await fetch(`/fullstack2/student-record-system/public/search.php?query=${encodeURIComponent(query)}`);
+        const data = await response.json();
+        
+        if (data.success && data.results.length > 0) {
+            displaySearchResults(data.results);
+            displayAutoComplete(data.results);
+        } else {
+            document.getElementById('noResults').style.display = 'block';
+            document.getElementById('detailedResults').style.display = 'none';
+        }
+    } catch (error) {
+        console.error('Error searching:', error);
+    }
+}
+
+function displayAutoComplete(results) {
+    const resultsDiv = document.getElementById('searchResults');
+    resultsDiv.innerHTML = '';
+    
+    results.slice(0, 5).forEach(result => {
+        const item = document.createElement('div');
+        item.className = 'autocomplete-item';
+        item.textContent = `${result.roll_number} - ${result.full_name}`;
+        item.onclick = () => selectStudent(result);
+        resultsDiv.appendChild(item);
+    });
+}
+
+function displaySearchResults(results) {
+    const tbody = document.getElementById('resultsTableBody');
+    tbody.innerHTML = '';
+    
+    results.forEach(student => {
+        const row = `
+            <tr>
+                <td>${student.roll_number}</td>
+                <td>${student.full_name}</td>
+                <td>${student.email}</td>
+                <td>${student.phone || 'N/A'}</td>
+                <td>${student.class}</td>
+                <td><span class="badge badge-${student.status.toLowerCase()}">${student.status}</span></td>
+                <td class="action-buttons">
+                    <a href="/fullstack2/student-record-system/public/edit.php?id=${student.id}" class="btn btn-sm btn-warning">Edit</a>
+                </td>
+            </tr>
+        `;
+        tbody.innerHTML += row;
+    });
+    
+    document.getElementById('detailedResults').style.display = 'block';
+    document.getElementById('noResults').style.display = 'none';
+}
+
+function selectStudent(student) {
+    document.getElementById('searchInput').value = student.full_name;
+    document.getElementById('searchResults').innerHTML = '';
+    window.location.href = `/fullstack2/student-record-system/public/edit.php?id=${student.id}`;
+}
+
+function filterByClass() {
+    const classValue = document.getElementById('classFilter').value;
+    if (!classValue) {
+        displayAllStudents();
+        return;
+    }
+    
+    const filtered = allStudents.filter(s => s.class === classValue);
+    displayFilteredResults(filtered);
+}
+
+function filterByStatus() {
+    const statusValue = document.getElementById('statusFilter').value;
+    if (!statusValue) {
+        displayAllStudents();
+        return;
+    }
+    
+    const filtered = allStudents.filter(s => s.status === statusValue);
+    displayFilteredResults(filtered);
+}
+
+function displayFilteredResults(results) {
+    const tbody = document.getElementById('resultsTableBody');
+    tbody.innerHTML = '';
+    
+    if (results.length === 0) {
+        document.getElementById('noResults').style.display = 'block';
+        document.getElementById('detailedResults').style.display = 'none';
+        return;
+    }
+    
+    results.forEach(student => {
+        const row = `
+            <tr>
+                <td>${student.roll_number}</td>
+                <td>${student.first_name} ${student.last_name}</td>
+                <td>${student.email}</td>
+                <td>${student.phone || 'N/A'}</td>
+                <td>${student.class}</td>
+                <td><span class="badge badge-${student.status.toLowerCase()}">${student.status}</span></td>
+                <td class="action-buttons">
+                    <a href="/student-record-system/public/edit.php?id=${student.id}" class="btn btn-sm btn-warning">Edit</a>
+                </td>
+            </tr>
+        `;
+        tbody.innerHTML += row;
+    });
+    
+    document.getElementById('detailedResults').style.display = 'block';
+    document.getElementById('noResults').style.display = 'none';
+}
+
+async function viewStudentDetails(studentId) {
+    try {
+        const response = await fetch(`/fullstack2/student-record-system/public/search.php?action=get_details&id=${studentId}`);
+        const data = await response.json();
+        if (data.success) {
+            alert(`Student: ${data.student.first_name} ${data.student.last_name}\nAverage Grade: ${data.average_grade}%\nAttendance: ${data.attendance_percentage}%`);
+        }
+    } catch (error) {
+        console.error('Error fetching details:', error);
+    }
+}
+</script>
+{% endblock %}

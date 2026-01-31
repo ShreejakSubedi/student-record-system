@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Student Record Management System{% endblock %}</title>
+    <link rel="stylesheet" href="/fullstack2/student-record-system/assets/css/main.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-brand">
+                <h1>📚 Student Record System</h1>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="/fullstack2/student-record-system/public/index.php">Dashboard</a></li>
+                <li><a href="/fullstack2/student-record-system/public/add_student.php">Add Student</a></li>
+                <li><a href="/fullstack2/student-record-system/public/add_grade.php">Add Grade</a></li>
+                <li><a href="/fullstack2/student-record-system/public/add_attendance.php">Add Attendance</a></li>
+                <li><a href="/fullstack2/student-record-system/public/search.php">Search</a></li>
+                <li><a href="/fullstack2/student-record-system/public/logout.php">Logout</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Flash Messages -->
+    {% if message %}
+    <div class="alert alert-success">
+        {{ message }}
+    </div>
+    {% endif %}
+
+    {% if error %}
+    <div class="alert alert-danger">
+        {{ error }}
+    </div>
+    {% endif %}
+
+    <!-- Main Content -->
+    <main class="container main-content">
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 Student Record Management System. All rights reserved.</p>
+            <p>Built with ❤️ using PHP, MySQL, and Twig</p>
+        </div>
+    </footer>
+
+    <script src="/fullstack2/student-record-system/assets/js/ajax.js"></script>
+    <script src="/fullstack2/student-record-system/assets/js/validation.js"></script>
+</body>
+</html>

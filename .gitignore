@@ -1,0 +1,39 @@
+# PHP
+*.php~
+*.php.bak
+
+# Composer
+composer.lock
+vendor/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Twig Cache
+cache/
+twig_cache/
+
+# Logs
+*.log
+logs/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Database
+*.sql.bak
+
+# Node (if added later)
+node_modules/
+package-lock.json

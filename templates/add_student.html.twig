@@ -1,0 +1,143 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Add Student - Student Record Management System{% endblock %}
+
+{% block content %}
+<div class="form-container">
+    <h2>Add New Student</h2>
+    
+    {% if errors is not empty %}
+    <div class="alert alert-danger">
+        <h4>Please fix the following errors:</h4>
+        <ul>
+            {% for field, error in errors %}
+            <li>{{ error }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+
+    <form method="POST" class="form-group" id="studentForm">
+        <input type="hidden" name="{{ csrf_token_name }}" value="{{ csrf_token }}" />
+        <div class="form-row">
+            <div class="form-col">
+                <label for="roll_number">Roll Number *</label>
+                <input type="text" id="roll_number" name="roll_number" 
+                       value="{{ old_roll_number ?? '' }}" required 
+                       class="form-control" placeholder="e.g., STU001">
+                <span class="error-message" id="roll_number_error"></span>
+            </div>
+            <div class="form-col">
+                <label for="first_name">First Name *</label>
+                <input type="text" id="first_name" name="first_name" 
+                       value="{{ old_first_name ?? '' }}" required 
+                       class="form-control" placeholder="Enter first name">
+                <span class="error-message" id="first_name_error"></span>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-col">
+                <label for="last_name">Last Name *</label>
+                <input type="text" id="last_name" name="last_name" 
+                       value="{{ old_last_name ?? '' }}" required 
+                       class="form-control" placeholder="Enter last name">
+                <span class="error-message" id="last_name_error"></span>
+            </div>
+            <div class="form-col">
+                <label for="email">Email *</label>
+                <input type="email" id="email" name="email" 
+                       value="{{ old_email ?? '' }}" required 
+                       class="form-control" placeholder="student@example.com">
+                <span class="error-message" id="email_error"></span>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-col">
+                <label for="phone">Phone</label>
+                <input type="tel" id="phone" name="phone" 
+                       value="{{ old_phone ?? '' }}" 
+                       class="form-control" placeholder="+977-9841234567">
+            </div>
+            <div class="form-col">
+                <label for="date_of_birth">Date of Birth</label>
+                <input type="date" id="date_of_birth" name="date_of_birth" 
+                       value="{{ old_dob ?? '' }}" class="form-control">
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-col">
+                <label for="gender">Gender</label>
+                <select id="gender" name="gender" class="form-control">
+                    <option value="">Select Gender</option>
+                    <option value="Male" {% if old_gender == 'Male' %}selected{% endif %}>Male</option>
+                    <option value="Female" {% if old_gender == 'Female' %}selected{% endif %}>Female</option>
+                    <option value="Other" {% if old_gender == 'Other' %}selected{% endif %}>Other</option>
+                </select>
+            </div>
+            <div class="form-col">
+                <label for="class">Class *</label>
+                <select id="class" name="class" required class="form-control">
+                    <option value="">Select Class</option>
+                    <option value="Class A" {% if old_class == 'Class A' %}selected{% endif %}>Class A</option>
+                    <option value="Class B" {% if old_class == 'Class B' %}selected{% endif %}>Class B</option>
+                    <option value="Class C" {% if old_class == 'Class C' %}selected{% endif %}>Class C</option>
+                </select>
+                <span class="error-message" id="class_error"></span>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-col">
+                <label for="address">Address</label>
+                <textarea id="address" name="address" class="form-control" 
+                          rows="3" placeholder="Enter student's address">{{ old_address ?? '' }}</textarea>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-col">
+                <label for="enrollment_date">Enrollment Date</label>
+                <input type="date" id="enrollment_date" name="enrollment_date" 
+                       value="{{ old_enrollment_date ?? today }}" class="form-control">
+            </div>
+            <div class="form-col">
+                <label for="status">Status</label>
+                <select id="status" name="status" class="form-control">
+                    <option value="Active" {% if old_status == 'Active' %}selected{% endif %}>Active</option>
+                    <option value="Inactive" {% if old_status == 'Inactive' %}selected{% endif %}>Inactive</option>
+                    <option value="Graduated" {% if old_status == 'Graduated' %}selected{% endif %}>Graduated</option>
+                </select>
+            </div>
+        </div>
+
+            <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Add Student</button>
+            <a href="/fullstack2/student-record-system/public/index.php" class="btn btn-secondary">Cancel</a>
+        </div>
+    </form>
+</div>
+
+<script>
+document.getElementById('email').addEventListener('change', async function() {
+    const email = this.value;
+    if (!email) return;
+    
+    try {
+        const response = await fetch(`/fullstack2/student-record-system/public/search.php?check_email=${encodeURIComponent(email)}`);
+        const data = await response.json();
+        if (data.exists) {
+            document.getElementById('email_error').textContent = 'This email already exists';
+            this.classList.add('error');
+        } else {
+            document.getElementById('email_error').textContent = '';
+            this.classList.remove('error');
+        }
+    } catch (error) {
+        console.error('Error checking email:', error);
+    }
+});
+</script>
+{% endblock %}

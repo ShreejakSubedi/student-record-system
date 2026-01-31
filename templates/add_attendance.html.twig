@@ -1,0 +1,112 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Add Attendance - Student Record Management System{% endblock %}
+
+{% block content %}
+<div class="form-container">
+    <h2>Add Attendance</h2>
+    
+    {% if errors is not empty %}
+    <div class="alert alert-danger">
+        <h4>Please fix the following errors:</h4>
+        <ul>
+            {% for field, error in errors %}
+            <li>{{ error }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+
+    <form method="POST" class="form-group">
+        <input type="hidden" name="{{ csrf_token_name }}" value="{{ csrf_token }}" />
+        <div class="form-row">
+            <div class="form-col">
+                <label for="student_id">Student *</label>
+                <select id="student_id" name="student_id" required class="form-control">
+                    <option value="">Select Student</option>
+                    {% for student in students %}
+                    <option value="{{ student.id }}">{{ student.roll_number }} - {{ student.first_name }} {{ student.last_name }}</option>
+                    {% endfor %}
+                </select>
+                <span class="error-message" id="student_id_error"></span>
+            </div>
+            <div class="form-col">
+                <label for="attendance_date">Attendance Date *</label>
+                <input type="date" id="attendance_date" name="attendance_date" 
+                       value="{{ old_attendance_date ?? today }}" required 
+                       class="form-control">
+                <span class="error-message" id="attendance_date_error"></span>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-col">
+                <label for="status">Status *</label>
+                <select id="status" name="status" required class="form-control">
+                    <option value="">Select Status</option>
+                    <option value="Present" {% if old_status == 'Present' %}selected{% endif %}>Present</option>
+                    <option value="Absent" {% if old_status == 'Absent' %}selected{% endif %}>Absent</option>
+                    <option value="Late" {% if old_status == 'Late' %}selected{% endif %}>Late</option>
+                </select>
+                <span class="error-message" id="status_error"></span>
+            </div>
+            <div class="form-col">
+                <label for="remarks">Remarks</label>
+                <input type="text" id="remarks" name="remarks" 
+                       value="{{ old_remarks ?? '' }}" 
+                       class="form-control" placeholder="e.g., On time, Arrived late, etc.">
+            </div>
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Mark Attendance</button>
+            <a href="/fullstack2/student-record-system/public/index.php" class="btn btn-secondary">Cancel</a>
+        </div>
+    </form>
+
+    <!-- Bulk Attendance -->
+    <div class="section" style="margin-top: 40px;">
+        <h3>Bulk Attendance Marking</h3>
+        <form method="POST" action="/fullstack2/student-record-system/public/add_attendance.php?bulk=1" class="form-group">
+            <input type="hidden" name="{{ csrf_token_name }}" value="{{ csrf_token }}" />
+            <div class="form-row">
+                <div class="form-col">
+                    <label for="bulk_date">Attendance Date *</label>
+                    <input type="date" id="bulk_date" name="bulk_date" 
+                           value="{{ today }}" required class="form-control">
+                </div>
+            </div>
+
+            <div class="table-responsive">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Student</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for student in students %}
+                        <tr>
+                            <td>{{ student.roll_number }} - {{ student.first_name }} {{ student.last_name }}</td>
+                            <td>
+                                <select name="attendance[{{ student.id }}]" class="form-control">
+                                    <option value="">Select</option>
+                                    <option value="Present">Present</option>
+                                    <option value="Absent">Absent</option>
+                                    <option value="Late">Late</option>
+                                </select>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">Mark Bulk Attendance</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

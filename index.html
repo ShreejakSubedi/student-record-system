@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Record Management System - Welcome</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0066cc 0%, #0052a3 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            max-width: 600px;
+            padding: 50px;
+            text-align: center;
+        }
+        
+        h1 {
+            color: #0066cc;
+            margin-bottom: 10px;
+            font-size: 2.5rem;
+        }
+        
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 1.1rem;
+        }
+        
+        .features {
+            text-align: left;
+            margin: 30px 0;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+        
+        .feature {
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid #0066cc;
+        }
+        
+        .feature strong {
+            color: #0066cc;
+        }
+        
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #0066cc, #0052a3);
+            color: white;
+            padding: 15px 40px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.1rem;
+            margin-top: 20px;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 102, 204, 0.3);
+        }
+        
+        .info-box {
+            background: #e7f3ff;
+            border-left: 4px solid #0066cc;
+            padding: 15px;
+            margin-top: 20px;
+            text-align: left;
+            border-radius: 4px;
+        }
+        
+        .info-box strong {
+            color: #0066cc;
+        }
+        
+        .footer {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+            color: #999;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📚 Student Record Management System</h1>
+        <p class="subtitle">Complete MVC Application with MySQL & Twig</p>
+        
+        <div class="features">
+            <div class="feature">
+                <strong>✅ Full CRUD</strong><br>
+                Create, Read, Update, Delete
+            </div>
+            <div class="feature">
+                <strong>🔒 Secure</strong><br>
+                SQL Injection & XSS Protected
+            </div>
+            <div class="feature">
+                <strong>🎨 Responsive</strong><br>
+                Works on All Devices
+            </div>
+            <div class="feature">
+                <strong>⚡ Fast</strong><br>
+                Optimized Performance
+            </div>
+            <div class="feature">
+                <strong>🔍 Searchable</strong><br>
+                Ajax Autocomplete
+            </div>
+            <div class="feature">
+                <strong>📊 Advanced</strong><br>
+                Reports & Analytics
+            </div>
+        </div>
+        
+        <div class="info-box">
+            <strong>🚀 Get Started:</strong><br>
+            Make sure you have:
+            <ul style="margin-left: 20px; margin-top: 10px;">
+                <li>Run: <code>composer install</code></li>
+                <li>Import: <code>database.sql</code></li>
+                <li>Database: <code>student_records</code></li>
+            </ul>
+        </div>
+        
+        <a href="public/index.php" class="cta-button">→ Open Application</a>
+        
+        <div class="footer">
+            <p><strong>Student:</strong> Pratik Luitel | <strong>Date:</strong> January 2026</p>
+            <p>Built with PHP 8.0, MySQL, Twig, and modern web technologies</p>
+        </div>
+    </div>
+</body>
+</html>
