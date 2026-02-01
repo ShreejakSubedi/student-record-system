@@ -24,6 +24,11 @@ use App\Controllers\GradeController;
 use App\Controllers\AttendanceController;
 
 try {
+    // Only allow POST requests
+    if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+        throw new Exception('Invalid request method. Only POST is allowed.');
+    }
+    
     $type = isset($_GET['type']) ? htmlspecialchars($_GET['type']) : '';
     $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
     
@@ -35,13 +40,10 @@ try {
     $gradeModel = new Grade($pdo);
     $attendanceModel = new Attendance($pdo);
     
-    // If called via POST, verify CSRF token
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $token = $_POST[CSRFToken::name()] ?? '';
-        if (!CSRFToken::verify($token)) {
-            header('Location: index.php?error=' . urlencode('Invalid request (CSRF token mismatch).'));
-            exit;
-        }
+    // Verify CSRF token
+    $token = $_POST[CSRFToken::name()] ?? '';
+    if (!CSRFToken::verify($token)) {
+        throw new Exception('Invalid request (CSRF token mismatch).');
     }
 
     switch ($type) {

@@ -3,6 +3,9 @@
 {% block title %}Dashboard - Student Record Management System{% endblock %}
 
 {% block content %}
+<!-- Hidden CSRF token for AJAX requests -->
+<input type="hidden" name="{{ csrf_token_name }}" value="{{ csrf_token }}" id="csrf_token_field">
+
 <div class="dashboard">
     <!-- Statistics Cards -->
     <div class="stats-grid">
@@ -184,15 +187,26 @@ function deleteStudent(studentId, studentName) {
         form.method = 'POST';
         form.action = `/fullstack2/student-record-system/public/delete.php?type=student&id=${studentId}`;
         
-        // Get CSRF token from the page (if it exists)
-        const csrfTokenElement = document.querySelector('[name="csrf_token"], [name="_token"]');
-        if (csrfTokenElement) {
-            const tokenInput = document.createElement('input');
-            tokenInput.type = 'hidden';
-            tokenInput.name = csrfTokenElement.name;
-            tokenInput.value = csrfTokenElement.value;
-            form.appendChild(tokenInput);
+        // Get CSRF token - try multiple selectors
+        let csrfToken = null;
+        const tokenElement = document.querySelector('[name="_csrf_token"]') 
+                          || document.querySelector('[name="csrf_token"]') 
+                          || document.querySelector('[name="_token"]');
+        
+        if (tokenElement) {
+            csrfToken = tokenElement.value;
+        } else {
+            // If no token found, show error
+            alert('Security token not found. Please refresh the page and try again.');
+            return;
         }
+        
+        // Add CSRF token to form
+        const tokenInput = document.createElement('input');
+        tokenInput.type = 'hidden';
+        tokenInput.name = '_csrf_token';
+        tokenInput.value = csrfToken;
+        form.appendChild(tokenInput);
         
         document.body.appendChild(form);
         form.submit();

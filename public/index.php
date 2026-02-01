@@ -15,6 +15,7 @@ if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
 
 require_once '../config/db.php';
 require_once '../config/twig.php';
+require_once '../config/csrf.php';
 
 use App\Models\Student;
 use App\Models\Grade;
@@ -42,6 +43,8 @@ try {
         'grades' => $grades,
         'attendance' => $attendance,
         'active_students' => $activeStudents,
+        'csrf_token' => CSRFToken::generate(),
+        'csrf_token_name' => CSRFToken::name(),
     ]);
     
 } catch (Exception $e) {
