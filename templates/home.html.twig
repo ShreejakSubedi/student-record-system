@@ -38,9 +38,9 @@
 
     <!-- Quick Action Buttons -->
     <div class="quick-actions">
-        <a href="/student-record-system/public/add_student.php" class="btn btn-primary">+ Add New Student</a>
-        <a href="/student-record-system/public/add_grade.php" class="btn btn-success">+ Add Grade</a>
-        <a href="/student-record-system/public/add_attendance.php" class="btn btn-info">+ Mark Attendance</a>
+        <a href="/fullstack2/student-record-system/public/add_student.php" class="btn btn-primary">+ Add New Student</a>
+        <a href="/fullstack2/student-record-system/public/add_grade.php" class="btn btn-success">+ Add Grade</a>
+        <a href="/fullstack2/student-record-system/public/add_attendance.php" class="btn btn-info">+ Mark Attendance</a>
     </div>
 
     <!-- Students Table -->
@@ -82,7 +82,7 @@
                             <span class="attendance-badge">{{ student.attendance_percentage ?? 0 }}%</span>
                         </td>
                         <td class="action-buttons">
-                            <a href="/student-record-system/public/edit.php?id={{ student.id }}" class="btn btn-sm btn-warning">Edit</a>
+                            <a href="/fullstack2/student-record-system/public/edit.php?id={{ student.id }}" class="btn btn-sm btn-warning">Edit</a>
                             <button class="btn btn-sm btn-danger" onclick="deleteStudent({{ student.id }}, '{{ student.first_name }} {{ student.last_name }}')">Delete</button>
                         </td>
                     </tr>
@@ -92,7 +92,7 @@
         </div>
         {% else %}
         <div class="alert alert-info">
-            No students found. <a href="/student-record-system/public/add_student.php">Add your first student</a>
+            No students found. <a href="/fullstack2/student-record-system/public/add_student.php">Add your first student</a>
         </div>
         {% endif %}
     </div>
@@ -132,7 +132,7 @@
         <a href="#" class="btn btn-secondary btn-small">View All Grades</a>
         {% else %}
         <div class="alert alert-info">
-            No grades recorded yet. <a href="/student-record-system/public/add_grade.php">Add a grade</a>
+            No grades recorded yet. <a href="/fullstack2/student-record-system/public/add_grade.php">Add a grade</a>
         </div>
         {% endif %}
     </div>
@@ -170,7 +170,7 @@
         <a href="#" class="btn btn-secondary btn-small">View All Attendance</a>
         {% else %}
         <div class="alert alert-info">
-            No attendance records yet. <a href="/student-record-system/public/add_attendance.php">Mark attendance</a>
+            No attendance records yet. <a href="/fullstack2/student-record-system/public/add_attendance.php">Mark attendance</a>
         </div>
         {% endif %}
     </div>
@@ -182,7 +182,7 @@ function deleteStudent(studentId, studentName) {
         // Create a hidden form to submit POST request with CSRF token
         const form = document.createElement('form');
         form.method = 'POST';
-        form.action = `/student-record-system/public/delete.php?type=student&id=${studentId}`;
+        form.action = `/fullstack2/student-record-system/public/delete.php?type=student&id=${studentId}`;
         
         // Get CSRF token from the page (if it exists)
         const csrfTokenElement = document.querySelector('[name="csrf_token"], [name="_token"]');
