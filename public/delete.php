@@ -46,6 +46,7 @@ try {
         throw new Exception('Invalid request (CSRF token mismatch).');
     }
 
+    $result = null;
     switch ($type) {
         case 'student':
             $controller = new StudentController($studentModel, $gradeModel, $attendanceModel);
@@ -66,15 +67,19 @@ try {
             throw new Exception('Invalid type');
     }
     
+    if (!$result) {
+        throw new Exception('Delete operation failed');
+    }
+    
     if ($result['success']) {
-        header('Location: index.php?message=' . urlencode($result['message']));
+        header('Location: /fullstack2/student-record-system/public/index.php?message=' . urlencode($result['message']));
     } else {
-        header('Location: index.php?error=' . urlencode($result['message']));
+        header('Location: /fullstack2/student-record-system/public/index.php?error=' . urlencode($result['message']));
     }
     exit;
     
 } catch (Exception $e) {
     error_log('Error in delete: ' . $e->getMessage());
-    header('Location: index.php?error=' . urlencode('An error occurred'));
+    header('Location: /fullstack2/student-record-system/public/index.php?error=' . urlencode('An error occurred: ' . $e->getMessage()));
     exit;
 }

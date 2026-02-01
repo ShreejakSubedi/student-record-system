@@ -6,6 +6,9 @@
 
 declare(strict_types=1);
 
+// Load Composer autoloader
+require_once __DIR__ . '/../vendor/autoload.php';
+
 // Database credentials
 const DB_HOST = 'localhost';
 const DB_USER = 'root';

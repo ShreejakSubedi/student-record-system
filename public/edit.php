@@ -45,7 +45,7 @@ try {
         $result = $controller->updateStudent($studentId, $_POST);
 
         if ($result['success']) {
-            header('Location: index.php?message=' . urlencode($result['message']));
+            header('Location: /fullstack2/student-record-system/public/index.php?message=' . urlencode($result['message']));
             exit;
         } else {
             $errors = $result['errors'] ?? [];
