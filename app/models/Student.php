@@ -122,7 +122,8 @@ class Student
         try {
             $stmt = $this->pdo->prepare('
                 UPDATE students 
-                SET first_name = :first_name,
+                SET roll_number = :roll_number,
+                    first_name = :first_name,
                     last_name = :last_name,
                     email = :email,
                     phone = :phone,
@@ -137,6 +138,7 @@ class Student
             
             return $stmt->execute([
                 ':id' => $id,
+                ':roll_number' => $data['roll_number'] ?? null,
                 ':first_name' => $data['first_name'] ?? null,
                 ':last_name' => $data['last_name'] ?? null,
                 ':email' => $data['email'] ?? null,

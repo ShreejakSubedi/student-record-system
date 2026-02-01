@@ -179,7 +179,23 @@
 <script>
 function deleteStudent(studentId, studentName) {
     if (confirm(`Are you sure you want to delete ${studentName}? This will also delete all associated grades and attendance records.`)) {
-        window.location.href = `/student-record-system/public/delete.php?type=student&id=${studentId}`;
+        // Create a hidden form to submit POST request with CSRF token
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = `/student-record-system/public/delete.php?type=student&id=${studentId}`;
+        
+        // Get CSRF token from the page (if it exists)
+        const csrfTokenElement = document.querySelector('[name="csrf_token"], [name="_token"]');
+        if (csrfTokenElement) {
+            const tokenInput = document.createElement('input');
+            tokenInput.type = 'hidden';
+            tokenInput.name = csrfTokenElement.name;
+            tokenInput.value = csrfTokenElement.value;
+            form.appendChild(tokenInput);
+        }
+        
+        document.body.appendChild(form);
+        form.submit();
     }
 }
 </script>
