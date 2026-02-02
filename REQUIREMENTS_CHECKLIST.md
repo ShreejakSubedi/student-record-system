@@ -1,7 +1,7 @@
 # Assignment Requirements Checklist
 
 ## Student Record Management System
-**Student:** Pratik Luitel  
+**Student:** Shreejak Subedi  
 **Date:** January 2026  
 **Assignment:** Full Stack Development - Final Project
 
@@ -572,8 +572,8 @@ Tested and working on:
 
 ## 📧 Contact Information
 
-**Student:** Pratik Luitel  
-**Email:** pratikluitel03@gmail.com  
+**Student:** Shreejak Subedi 
+**Email:** shreejak666@gmail.com  
 **Project:** Student Record Management System  
 **Submission Date:** January 2026  
 **Institution:** Full Stack Development Course  
