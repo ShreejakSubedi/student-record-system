@@ -3,7 +3,7 @@
 ## Student Record Management System - FINAL DELIVERY
 
 **Project Name:** Student Record Management System  
-**Student:** Pratik Luitel  
+**Student:** Shreejak Subedi 
 **Date:** January 2026  
 **Status:** ✅ **COMPLETE AND READY FOR DEPLOYMENT**
 
@@ -412,8 +412,8 @@ Potential additions:
 
 ## 📧 Contact
 
-**Student:** Pratik Luitel  
-**Email:** pratikluitel03@gmail.com  
+**Student:** Shreejak Subedi  
+**Email:** shreejak666@gmail.com  
 **Date:** January 2026  
 **Course:** Full Stack Development  
 
