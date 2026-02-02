@@ -494,7 +494,7 @@ To deploy to school's student server:
 
 ## 11. READY FOR SUBMISSION ✅
 
-Your project **EXCEEDS** all assignment requirements and is **READY FOR SUBMISSION** to the school.
+my project **EXCEEDS** all assignment requirements and is **READY FOR SUBMISSION** to the school.
 
 **Deliverables Ready:**
 - ✅ Fully functional web application
