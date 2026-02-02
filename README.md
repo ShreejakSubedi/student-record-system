@@ -520,8 +520,8 @@ This project is created for educational purposes as part of a Full Stack Develop
 
 ## 📧 Contact & Support
 
-**Student:** Pratik Luitel  
-**Email:** pratikluitel03@gmail.com  
+**Student:** Shreejak Subedi
+**Email:** shreejak666@gmail.com  
 **Project:** Student Record Management System  
 **Date:** January 2026  
 
