@@ -401,8 +401,8 @@ This system is:
 
 ## 📧 STUDENT INFORMATION
 
-**Name:** Pratik Luitel  
-**Email:** pratikluitel03@gmail.com  
+**Name:** Shreejak Subedi     
+**Email:** shreejak666@gmail.com  
 **Project:** Student Record Management System  
 **Date:** January 2026  
 **Course:** Full Stack Development  
@@ -446,7 +446,7 @@ For any questions or issues:
 1. **Read README.md** - Comprehensive guide
 2. **Check API_DOCUMENTATION.md** - API reference
 3. **Review SETUP.md** - Installation help
-4. **Contact:** pratikluitel03@gmail.com
+4. **Contact:** shreejak666@gmail.com
 
 ---
 
